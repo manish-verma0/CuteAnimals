@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -43,52 +47,46 @@ dependencies {
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
     //retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation libs.retrofit
+    implementation libs.converter.gson
+    implementation libs.gson
 
     //glide
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation libs.glide
+    annotationProcessor libs.compiler
 
     //coroutine
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.kotlinx.coroutines.core
 
     //okhttp
-    implementation 'com.google.code.gson:gson:2.10.1'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    implementation "com.squareup.okhttp3:okhttp:4.10.0"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
+    implementation libs.gson
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.okhttp
+    implementation libs.logging.interceptor
 
     //hilt
-    implementation 'androidx.fragment:fragment-ktx:1.5.5'
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.1"
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "com.google.dagger:hilt-android:2.44"
-    kapt "com.google.dagger:hilt-compiler:2.44"
+    implementation libs.androidx.fragment.ktx
+    implementation libs.androidx.lifecycle.viewmodel
+    implementation libs.androidx.lifecycle.extensions
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 
-    implementation 'androidx.core:core-splashscreen:1.0.0'
-
-    //navigation
-    def nav_version = "2.5.3"
+    implementation libs.androidx.core.splashscreen
 
     // Kotlin
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-
-
-    def lifecycle_version = "2.5.1"
+    implementation libs.androidx.navigation.fragment.ktx
+    implementation libs.androidx.navigation.ui.ktx
 
     // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation libs.androidx.lifecycle.livedata.ktx
 
     //Room DB
-    implementation 'androidx.room:room-ktx:2.5.0'
-    kapt "androidx.room:room-compiler:2.5.0"
+    implementation libs.androidx.room.ktx
+    kapt libs.androidx.room.compiler
 
     //testing dependency
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
 }
