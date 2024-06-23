@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cuteanimals.databinding.CatItemsBinding
+import com.example.cuteanimals.view.data.model.Cat
 
 
 class CatAdapter() :
-    ListAdapter<String, CatAdapter.CatViewHolder>(UrlComparator()) {
+    ListAdapter<Cat, CatAdapter.CatViewHolder>(UrlComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
         val binding =
@@ -28,18 +29,18 @@ class CatAdapter() :
     class CatViewHolder(private val binding: CatItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(url: String) {
+        fun bind(cat: Cat) {
             binding.apply {
-                Glide.with(itemView.context).load(url).into(catImage)
+                Glide.with(itemView.context).load(cat.url).into(catImage)
             }
         }
     }
 
-    class UrlComparator : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String) =
-            oldItem == newItem
+    class UrlComparator : DiffUtil.ItemCallback<Cat>() {
+        override fun areItemsTheSame(oldItem: Cat, newItem: Cat) =
+            oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: String, newItem: String) =
+        override fun areContentsTheSame(oldItem: Cat, newItem: Cat) =
             oldItem == newItem
     }
 }

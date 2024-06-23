@@ -9,6 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cuteanimals.R
 import com.example.cuteanimals.databinding.ActivityMainBinding
 import com.example.cuteanimals.view.adapter.CatAdapter
+import com.example.cuteanimals.view.data.model.Cat
+import com.example.cuteanimals.view.data.repo.RemoteRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -24,6 +29,12 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val repo = RemoteRepository()
+        var list :List<Cat> = listOf()
+        runBlocking {
+            list = repo.getCatList()?.body() ?: listOf()
+        }
+
         adapter = CatAdapter()
         binding.apply {
             catRecycler.apply {
@@ -34,18 +45,7 @@ class MainActivity : AppCompatActivity() {
             this.let {
 
                 adapter?.submitList(
-                    listOf(
-                        "https://cdn2.thecatapi.com/images/46j.jpg",
-                        "https://cdn2.thecatapi.com/images/5pl.jpg",
-                        "https://cdn2.thecatapi.com/images/acn.jpg",
-                        "https://cdn2.thecatapi.com/images/bu3.jpg",
-                        "https://cdn2.thecatapi.com/images/c9g.jpg",
-                        "https://cdn2.thecatapi.com/images/d80.png",
-                        "https://cdn2.thecatapi.com/images/MTYxMjc1OQ.jpg",
-                        "https://cdn2.thecatapi.com/images/MTg3Nzk5MQ.jpg",
-                        "https://cdn2.thecatapi.com/images/MTg3OTI3MQ.jpg",
-                        "https://cdn2.thecatapi.com/images/LIQSvUemz.jpg"
-                    )
+                    list
                 )
             }
         }
