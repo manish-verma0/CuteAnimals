@@ -12,7 +12,9 @@ import com.example.cuteanimals.view.adapter.CatAdapter
 import com.example.cuteanimals.view.data.model.Cat
 import com.example.cuteanimals.view.data.repo.RemoteRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
         val repo = RemoteRepository()
         var list :List<Cat> = listOf()
-        runBlocking {
+        CoroutineScope(Dispatchers.IO).launch {
             list = repo.getCatList()?.body() ?: listOf()
         }
 
