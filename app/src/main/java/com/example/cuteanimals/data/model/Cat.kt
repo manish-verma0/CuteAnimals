@@ -1,4 +1,4 @@
-package com.example.cuteanimals.view.data.model
+package com.example.cuteanimals.data.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

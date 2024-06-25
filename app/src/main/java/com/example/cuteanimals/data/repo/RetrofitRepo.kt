@@ -1,7 +1,7 @@
-package com.example.cuteanimals.view.data.repo
+package com.example.cuteanimals.data.repo
 
-import com.example.cuteanimals.view.core.utils.Constants
-import com.example.cuteanimals.view.data.model.Cat
+import com.example.cuteanimals.core.utils.Constants
+import com.example.cuteanimals.data.model.Cat
 import retrofit2.Response
 import retrofit2.http.GET
 

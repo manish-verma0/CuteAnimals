@@ -1,25 +1,34 @@
 package com.example.cuteanimals.view.activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cuteanimals.R
 import com.example.cuteanimals.databinding.ActivityMainBinding
 import com.example.cuteanimals.view.adapter.CatAdapter
-import com.example.cuteanimals.view.data.model.Cat
-import com.example.cuteanimals.view.data.repo.RemoteRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
+import com.example.cuteanimals.view.viewmodel.CatViewModel
+import com.example.cuteanimals.view.viewmodel.UIState
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
-    private var adapter: CatAdapter? = null
+    private lateinit var binding: ActivityMainBinding
+
+    private lateinit var adapter: CatAdapter
+
+    private val mainViewModel: CatViewModel by lazy {
+        ViewModelProvider(this)[CatViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,26 +40,52 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val repo = RemoteRepository()
-        var list :List<Cat> = listOf()
-        CoroutineScope(Dispatchers.IO).launch {
-            list = repo.getCatList()?.body() ?: listOf()
-        }
-
         adapter = CatAdapter()
-        binding.apply {
-            catRecycler.apply {
-                adapter = this@MainActivity.adapter
-                layoutManager = LinearLayoutManager(context)
-            }
+        collector()
+        setupUI()
+    }
 
-            this.let {
+    private fun setupUI() {
+        binding.catRecycler.adapter = adapter
+        binding.catRecycler.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.catRecycler.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
+    }
 
-                adapter?.submitList(
-                    list
-                )
+    private fun collector() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.mainItem.collect {
+                    when (it) {
+                        is UIState.Success -> {
+                            binding.progress.visibility = View.GONE
+                            binding.error.visibility = View.GONE
+                            binding.catRecycler.visibility = View.VISIBLE
+                            adapter.submitList(it.data)
+                        }
+
+                        is UIState.Failure -> {
+                            binding.progress.visibility = View.GONE
+                            binding.error.visibility = View.VISIBLE
+                            binding.catRecycler.visibility = View.GONE
+                            binding.error.text = it.throwable.toString()
+                        }
+
+                        is UIState.Loading -> {
+                            binding.progress.visibility = View.VISIBLE
+                            binding.error.visibility = View.GONE
+                            binding.catRecycler.visibility = View.GONE
+                        }
+                    }
+                }
             }
         }
     }
+
 
 }

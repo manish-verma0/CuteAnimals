@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cuteanimals.databinding.CatItemsBinding
-import com.example.cuteanimals.view.data.model.Cat
+import com.example.cuteanimals.data.model.Cat
 
 
 class CatAdapter() :
