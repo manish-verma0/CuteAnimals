@@ -87,6 +87,10 @@ dependencies {
     implementation libs.androidx.room.ktx
     kapt libs.androidx.room.compiler
 
+    def paging_version = "3.0.0" //current version at the time
+
+    implementation "androidx.paging:paging-runtime:$paging_version"
+
     //testing dependency
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit

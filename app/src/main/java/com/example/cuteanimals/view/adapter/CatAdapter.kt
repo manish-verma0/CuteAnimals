@@ -2,6 +2,7 @@ package com.example.cuteanimals.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,7 @@ import com.example.cuteanimals.data.model.Cat
 
 
 class CatAdapter() :
-    ListAdapter<Cat, CatAdapter.CatViewHolder>(UrlComparator()) {
+    PagingDataAdapter<Cat, CatAdapter.CatViewHolder>(UrlComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
         val binding =

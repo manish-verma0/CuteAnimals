@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                             binding.progress.visibility = View.GONE
                             binding.error.visibility = View.GONE
                             binding.catRecycler.visibility = View.VISIBLE
-                            adapter.submitList(it.data)
+                            adapter.submitData(it.data)
                         }
 
                         is UIState.Failure -> {
