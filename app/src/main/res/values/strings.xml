@@ -2,4 +2,6 @@
     <string name="app_name">CuteAnimals</string>
     <string name="catimage">catImage</string>
     <string name="cute_cats">Cute Cats</string>
+    <string name="cats">Cats</string>
+    <string name="dogs">Dogs</string>
 </resources>

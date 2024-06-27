@@ -43,7 +43,7 @@ class CatViewModel @Inject constructor(private val mainRepository: RemoteReposit
         }
     }
 
-    fun getMovies(): Flow<PagingData<Cat>> {
+    private fun getMovies(): Flow<PagingData<Cat>> {
         return mainRepository.getCats()
             .map { pagingData ->
                 pagingData.map {
