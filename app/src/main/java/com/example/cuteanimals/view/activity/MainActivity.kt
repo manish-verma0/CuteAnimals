@@ -34,6 +34,10 @@ class MainActivity : AppCompatActivity() {
         binding.catBtn.setOnClickListener {
             startActivity(Intent(this,CatActivity::class.java))
         }
+
+        binding.dogBtn.setOnClickListener {
+            startActivity(Intent(this, DogActivity::class.java))
+        }
     }
 
 
