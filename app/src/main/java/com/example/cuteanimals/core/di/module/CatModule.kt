@@ -2,6 +2,7 @@ package com.example.cuteanimals.core.di.module
 
 import com.example.cuteanimals.core.utils.Constants
 import com.example.cuteanimals.data.repo.CatService
+import com.example.cuteanimals.data.repo.DogService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,5 +45,17 @@ class CatModule {
             .client(client)
             .build()
             .create(CatService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDogNetworkService(client: OkHttpClient): DogService {
+        return Retrofit
+            .Builder()
+            .baseUrl(Constants.DOG_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+            .create(DogService::class.java)
     }
 }
